@@ -7,63 +7,58 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#pragma once
+#ifndef FASTTEXT_ARGS_H
+#define FASTTEXT_ARGS_H
 
 #include <istream>
 #include <ostream>
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 namespace fasttext {
 
-enum class model_name : int { cbow = 1, sg, sup };
-enum class loss_name : int { hs = 1, ns, softmax };
+    enum class model_name : int {cbow=1, sg, sup};
+    enum class loss_name : int {hs=1, ns, softmax};
 
-class Args {
-  protected:
-    std::string lossToString(loss_name) const;
-    std::string boolToString(bool) const;
-    std::string modelToString(model_name) const;
+    class Args {
+    public:
+        Args();
+        std::string input;
+        std::string test;
+        std::string output;
+        std::string suboutput;
+        std::string lemmaoutput;
+        std::string morphoutput;
+        std::string ipaoutput;
+        std::string propsStr;
+        double lr;
+        int lrUpdateRate;
+        int dim;
+        int ws;
+        int epoch;
+        int minCount;
+        int neg;
+        int minn;
+        int maxn;
+        int wordNgrams;
+        loss_name loss;
+        model_name model;
+        int bucket;
+        int thread;
+        double t;
+        std::string label;
+        int verbose;
+        std::string pretrainedVectors;
+        std::unordered_set<std::string> props;
 
-  public:
-    Args();
-    std::string input;
-    std::string output;
-    double lr;
-    int lrUpdateRate;
-    int dim;
-    int ws;
-    int epoch;
-    int minCount;
-    int minCountLabel;
-    int neg;
-    int wordNgrams;
-    loss_name loss;
-    model_name model;
-    int bucket;
-    int minn;
-    int maxn;
-    int thread;
-    double t;
-    std::string label;
-    int verbose;
-    std::string pretrainedVectors;
-    bool saveOutput;
+        void initProps(std::string);
+        void parseArgs(int, char**);
+        void printHelp();
+        void save(std::ostream&);
+        void load(std::istream&);
+    };
 
-    bool qout;
-    bool retrain;
-    bool qnorm;
-    size_t cutoff;
-    size_t dsub;
-
-    void parseArgs(const std::vector<std::string>& args);
-    void printHelp();
-    void printBasicHelp();
-    void printDictionaryHelp();
-    void printTrainingHelp();
-    void printQuantizationHelp();
-    void save(std::ostream&);
-    void load(std::istream&);
-    void dump(std::ostream&) const;
-};
 }
+
+#endif
