@@ -7,54 +7,35 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#pragma once
+#ifndef FASTTEXT_VECTOR_H
+#define FASTTEXT_VECTOR_H
 
 #include <cstdint>
 #include <ostream>
-#include <vector>
 
 #include "real.h"
 
 namespace fasttext {
 
 class Matrix;
-class QMatrix;
 
 class Vector {
 
-  protected:
-    std::vector<real> data_;
-
   public:
+    int64_t m_;
+    real* data_;
+
     explicit Vector(int64_t);
-    Vector(const Vector&) = delete;
-    Vector& operator=(const Vector&) = delete;
+    ~Vector();
 
-    inline real* data() {
-      return data_.data();
-    }
-    inline const real* data() const {
-      return data_.data();
-    }
-    inline real& operator[](int64_t i) {
-      return data_[i];
-    }
-    inline const real& operator[](int64_t i) const {
-      return data_[i];
-    }
+    real& operator[](int64_t);
+    const real& operator[](int64_t) const;
 
-    inline int64_t size() const {
-      return data_.size();
-    }
+    int64_t size() const;
     void zero();
     void mul(real);
-    real norm() const;
-    void addVector(const Vector& source);
-    void addVector(const Vector&, real);
     void addRow(const Matrix&, int64_t);
-    void addRow(const QMatrix&, int64_t);
     void addRow(const Matrix&, int64_t, real);
-    void mul(const QMatrix&, const Vector&);
     void mul(const Matrix&, const Vector&);
     int64_t argmax();
 };
@@ -62,3 +43,5 @@ class Vector {
 std::ostream& operator<<(std::ostream&, const Vector&);
 
 }
+
+#endif

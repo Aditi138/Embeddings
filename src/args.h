@@ -18,46 +18,46 @@
 
 namespace fasttext {
 
-    enum class model_name : int {cbow=1, sg, sup};
-    enum class loss_name : int {hs=1, ns, softmax};
+enum class model_name : int {cbow=1, sg, sup};
+enum class loss_name : int {hs=1, ns, softmax};
 
-    class Args {
-    public:
-        Args();
-        std::string input;
-        std::string test;
-        std::string output;
-        std::string suboutput;
-        std::string lemmaoutput;
-        std::string morphoutput;
-        std::string ipaoutput;
-        std::string propsStr;
-        double lr;
-        int lrUpdateRate;
-        int dim;
-        int ws;
-        int epoch;
-        int minCount;
-        int neg;
-        int minn;
-        int maxn;
-        int wordNgrams;
-        loss_name loss;
-        model_name model;
-        int bucket;
-        int thread;
-        double t;
-        std::string label;
-        int verbose;
-        std::string pretrainedVectors;
-        std::unordered_set<std::string> props;
-
-        void initProps(std::string);
-        void parseArgs(int, char**);
-        void printHelp();
-        void save(std::ostream&);
-        void load(std::istream&);
-    };
+class Args {
+  public:
+    Args();
+    std::string input;
+    std::string test;
+    std::string output;
+    std::string suboutput;
+    std::string lemmaoutput;
+    std::string morphoutput;
+    std::string ipaoutput;
+	std::string propsStr;
+    double lr;
+    int lrUpdateRate;
+    int dim;
+    int ws;
+    int epoch;
+    int minCount;
+    int neg;
+    int minn;
+    int maxn;
+    int wordNgrams;
+    loss_name loss;
+    model_name model;
+    int bucket;
+    int thread;
+    double t;
+    std::string label;
+    int verbose;
+    std::string pretrainedVectors;
+    std::unordered_set<std::string> props;
+	
+	void initProps(std::string);
+    void parseArgs(int, char**);
+    void printHelp();
+    void save(std::ostream&);
+    void load(std::istream&);
+};
 
 }
 
