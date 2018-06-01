@@ -178,12 +178,14 @@ void Dictionary::computeNgrams(const std::string& word,
   const bool useProp = args_->props.find(prop) != args_->props.end();
 	if (useProp) {
 	   if(prop == "w"){
-//		std::cout << "In prop w" << std::endl;
-	      	
-		int32_t h = hash(value) % args_->bucket;
-		ngrams.push_back(nwords_ + h);
-	 std::string temp_word = BOW + value.substr(value.find(PROP_VALUE_SEP)+1,std::string::npos) + EOW;
-	for (size_t i = 0; i < temp_word.size(); i++) {
+
+        // If only whole word  uncomment next two lines and comment rest code in the if loop
+		/*int32_t h = hash(value) % args_->bucket;
+		ngrams.push_back(nwords_ + h);*/
+
+       // Default consider character-ngrams
+	   std::string temp_word = BOW + value.substr(value.find(PROP_VALUE_SEP)+1,std::string::npos) + EOW;
+	   for (size_t i = 0; i < temp_word.size(); i++) {
             std::string charn;
             if ((temp_word[i] & 0xC0) == 0x80) continue;
             for (size_t j = i, n = 1; j < temp_word.size() && n <= args_->maxn; n++) {
@@ -193,79 +195,71 @@ void Dictionary::computeNgrams(const std::string& word,
               }
               if (n >= args_->minn && !(n == 1 && (i == 0 || j == temp_word.size()))) {
                 int32_t h = hash(charn) % args_->bucket;
-	//	std::cout << charn << std::endl;
                 ngrams.push_back(nwords_ + h);
-		subentry e;
-		e.subword = charn;
-		e.id = nwords_+h;
-		subngram.push_back(e);		
-		//std::cout << e.subword << std::endl;
-                //std::cout << e.id << std::endl;
+		        subentry e;
+		        e.subword = charn;
+		        e.id = nwords_+h;
+		        subngram.push_back(e);
               }
             }
           }
 	}
 	else{
-          std::string val = value.substr(value.find(PROP_VALUE_SEP)+1, std::string::npos);
-	  if(prop == "l"){
-	  	int32_t h = hash(value) % args_->bucket;
-		sublemma.id = nwords_+h;
-		sublemma.subword = value;
+         std::string val = value.substr(value.find(PROP_VALUE_SEP)+1, std::string::npos);
+         if(prop == "l"){
+	  	    int32_t h = hash(value) % args_->bucket;
+            sublemma.id = nwords_+h;
+		    sublemma.subword = value;
 	        ngrams.push_back(nwords_ + h);
-	   }
-	   if(prop == "m"){
-		std::vector<std::string> morphValues = utils::split(val, '+');
-		/*if(morphValues.size() == 1 and morphValues[0]==""){
-		//std::cout << word << std::endl;
-		morphValues[0] = "<unk>";
-		}*/
-		for(int32_t m=0;m<morphValues.size();m++){
-			int32_t h = hash( morphValues[m]) % args_->bucket;
-			subentry e;
-			e.id = nwords_+h;
-			e.subword =  morphValues[m];
-			submorph.push_back(e);
-	   		ngrams.push_back(nwords_ + h);
-		}
-		/*subentry e;
-		std::string val = value.substr(value.find(PROP_VALUE_SEP)+1,std::string::npos);
-		if(value=="")
-		{ value = "m:<unk>";}
-		int32_t h = hash(value) % args_->bucket;
-		e.id = nwords_+h;
-		e.subword = value;
-		submorph.push_back(e);
-		ngrams.push_back(nwords_+h);*/
+	      }
+	    if(prop == "m"){
+            //Default encodes each morph tag separately
+		    std::vector<std::string> morphValues = utils::split(val, '+');
+
+		    for(int32_t m=0;m<morphValues.size();m++){
+			    int32_t h = hash( morphValues[m]) % args_->bucket;
+			    subentry e;
+			    e.id = nwords_+h;
+			    e.subword =  morphValues[m];
+			    submorph.push_back(e);
+	   		    ngrams.push_back(nwords_ + h);
+		    }
+
+          //Encodes the morphology tags as a whole
+		  /*subentry e;
+		  std::string val = value.substr(value.find(PROP_VALUE_SEP)+1,std::string::npos);
+		  if(value=="")
+		  { value = "m:<unk>";}
+		  int32_t h = hash(value) % args_->bucket;
+		  e.id = nwords_+h;
+		  e.subword = value;
+		  submorph.push_back(e);
+		  ngrams.push_back(nwords_+h);*/
 	    }
-	  if(prop == "ipa"){
+
+        if(prop == "ipa"){
 	
-	 std::string temp_word = BOW + value.substr(value.find(PROP_VALUE_SEP)+1,std::string::npos) + EOW;
-	for (size_t i = 0; i < temp_word.size(); i++) {
-            std::string charn;
-            if ((temp_word[i] & 0xC0) == 0x80) continue;
-            for (size_t j = i, n = 1; j < temp_word.size() && n <= args_->maxn; n++) {
-              charn.push_back(temp_word[j++]);
-              while (j < temp_word.size() && (temp_word[j] & 0xC0) == 0x80) {
-                charn.push_back(temp_word[j++]);
-              }
+	      std::string temp_word = BOW + value.substr(value.find(PROP_VALUE_SEP)+1,std::string::npos) + EOW;
+	      for (size_t i = 0; i < temp_word.size(); i++) {
+                std::string charn;
+                if ((temp_word[i] & 0xC0) == 0x80) continue;
+                for (size_t j = i, n = 1; j < temp_word.size() && n <= args_->maxn; n++) {
+                    charn.push_back(temp_word[j++]);
+                    while (j < temp_word.size() && (temp_word[j] & 0xC0) == 0x80) {
+                    charn.push_back(temp_word[j++]);
+                 }
               if (n >= args_->minn && !(n == 1 && (i == 0 || j == temp_word.size()))) {
                 int32_t h = hash(charn) % args_->bucket;
                 ngrams.push_back(nwords_ + h);
-		subentry e;
-		e.subword = charn;
-		e.id = nwords_+h;
-		subipangram.push_back(e);		
-		//std::cout << e.subword << std::endl;
-                //std::cout << e.id << std::endl;
+		        subentry e;
+		        e.subword = charn;
+		        e.id = nwords_+h;
+		        subipangram.push_back(e);
               }
             }
           }
-	}
-	}
-
-	  //std::cin >> x;
-	  //std::cout << value << "\n";
-	
+	    }
+	  }
 	}
   }
 }
@@ -317,34 +311,9 @@ void Dictionary::readFromFile(std::istream& in) {
     
     std::vector<std::string> propsValues = utils::split(word, '~');
     std::string value = propsValues[0];
-    //if(propsValues.size() != 4){
-//	std::cout << "Incorrect size: " << word <<  std::endl;
-  //   }
-    //std::cout << value << " Size: " << propsValues.size() << std::endl;
     std::string only_word = value.substr(value.find(PROP_VALUE_SEP)+1, std::string::npos);
     
     add(only_word,word);
-    //add(word, word);
-    
-    /*std::string lemma = propsValues[1];
-    std::string morph = propsValues[2];
-    int32_t lh = findL(lemma);
-    if(l2int_[lh]==-1)
-    {
-	l2int_[lh]=lsize_++;
-        entry e;
-	e.word = lemma;
-        l_.push_back(e);
-    }
-    int32_t mh = findM(morph);
-    if(m2int_[mh] == -1)
-    {
-	m2int_[mh]=msize_++;
-        entry e;
-	e.word = morph;
-        m_.push_back(e);
-    }*/
-
 
     if (ntokens_ % 1000000 == 0 && args_->verbose > 1) {
       std::cout << "\rRead " << ntokens_  / 1000000 << "M words" << std::flush;
@@ -359,8 +328,6 @@ void Dictionary::readFromFile(std::istream& in) {
   if (args_->verbose > 0) {
     std::cout << "\rRead " << ntokens_  / 1000000 << "M words" << std::endl;
     std::cout << "Number of words:  " << nwords_ << std::endl;
-   // std::cout <<  "Number of lemmas: " << lsize_ << std::endl;
-   // std::cout << "Number of morphs: " << msize_ << std::endl;
     std::cout << "Number of labels: " << nlabels_ << std::endl;
   }
   if (size_ == 0) {
@@ -474,7 +441,6 @@ int32_t Dictionary::getLine(std::istream& in,
     std::string word = value.substr(value.find(PROP_VALUE_SEP)+1, std::string::npos);
 
     int32_t wid = getId(word);
-    //int32_t wid = getId(token);
     if (wid < 0) continue;
     entry_type type = getType(wid);
     ntokens++;

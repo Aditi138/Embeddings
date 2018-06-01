@@ -24,8 +24,6 @@ set(HEADER_FILES
     src/fasttext.h
     src/matrix.h
     src/model.h
-    src/productquantizer.h
-    src/qmatrix.h
     src/real.h
     src/utils.h
     src/vector.h)
@@ -37,8 +35,6 @@ set(SOURCE_FILES
     src/main.cc
     src/matrix.cc
     src/model.cc
-    src/productquantizer.cc
-    src/qmatrix.cc
     src/utils.cc
     src/vector.cc)
 

@@ -24,7 +24,7 @@ Model::Model(std::shared_ptr<Matrix> wi,
              int32_t seed)
   : hidden_(args->dim), output_(wo->m_), grad_(args->dim), rng(seed)
 {
-  std::cout << "Seed: " << seed << std::endl;
+  //std::cout << "Seed: " << seed << std::endl;
   wi_ = wi;
   wo_ = wo;
   args_ = args;

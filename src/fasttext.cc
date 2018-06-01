@@ -32,55 +32,6 @@ void FastText::getVector(Vector& vec, const std::string& word) {
     vec.mul(1.0 / ngrams.size());
   }
 }
-/*
-void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vector& ipavec,std::map<std::string,int>& mapOfSubWords, const int32_t& word,std::ofstream& ofs, std::ofstream& ofl, std::ofstream& ofm,std::ofstream& ofi){
-   const std::vector<subentry>& subngrams = dict_->getSubNgrams(word);
-   vec.zero();
-   lemmavec.zero();
-   morphvec.zero();
-   ipavec.zero();
-   for(int32_t it = 0;it !=subngrams.size(); it++){
-	if(mapOfSubWords.find(subngrams[it].subword) == mapOfSubWords.end()){
- 		//std::cout << subngrams[it].subword << std::endl;
-		vec.zero();
-		mapOfSubWords.insert(std::make_pair(subngrams[it].subword, 1));
-  		vec.addRow(*input_,subngrams[it].id);
-    		ofs << subngrams[it].subword << " " << vec << std::endl;
- 	}
-    }
-   const std::vector<subentry>& subipangrams = dict_->getSubIpaNgrams(word);
-   for(int32_t it = 0;it !=subipangrams.size(); it++){
-	if(mapOfSubWords.find(subipangrams[it].subword) == mapOfSubWords.end()){
- 		//std::cout << subngrams[it].subword << std::endl;
-		ipavec.zero();
-		mapOfSubWords.insert(std::make_pair(subipangrams[it].subword, 1));
-  		ipavec.addRow(*input_,subipangrams[it].id);
-    		ofi << subipangrams[it].subword << " " << ipavec << std::endl;
- 	}
-    }
-    const subentry subl = dict_->getLemma(word);
-    const std::vector<subentry> subm = dict_->getMorph(word);
-    if(mapOfSubWords.find(subl.subword) == mapOfSubWords.end()){
-	lemmavec.zero();
-	mapOfSubWords.insert(std::make_pair(subl.subword, 1));
-  	lemmavec.addRow(*input_,subl.id);
-    	ofl << subl.subword << " " << lemmavec << std::endl;
- 	}
-    else{
-       
-
-}
-    for(int32_t m=0;m<subm.size();m++){
-    subentry e= subm[m];
-    if(mapOfSubWords.find(e.subword) == mapOfSubWords.end()){
-	morphvec.zero();
-	mapOfSubWords.insert(std::make_pair(e.subword, 1));
-  	morphvec.addRow(*input_,e.id);
-    	ofm << e.subword << " " << morphvec << std::endl;
- 	}
-      }
-
-}*/
 
 void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vector& ipavec,std::map<int32_t,std::string>& mapOfSubWords, const int32_t& word,std::ofstream& ofs, std::ofstream& ofl, std::ofstream& ofm,std::ofstream& ofi){
    const std::vector<subentry>& subngrams = dict_->getSubNgrams(word);
@@ -97,9 +48,6 @@ void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vect
   		vec.addRow(*input_, h);
     		ofs << subngrams[it].subword << " " << vec << std::endl;
  	}
-/*else{
-   		std::cout << "Hash already used ngram" << std::endl;
-	}*/
  }
    const std::vector<subentry>& subipangrams = dict_->getSubIpaNgrams(word);
    for(int32_t it = 0;it !=subipangrams.size(); it++){
@@ -111,9 +59,6 @@ void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vect
   		ipavec.addRow(*input_,h);
     		ofi << subipangrams[it].subword << " " << ipavec << std::endl;
  	}
-	/*else{
-		 std::cout << "Hash already used by ipangram  " << std::endl;
-	}*/
 }
     const subentry subl = dict_->getLemma(word);
     const std::vector<subentry> subm = dict_->getMorph(word); 
@@ -125,9 +70,6 @@ void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vect
   		lemmavec.addRow(*input_,h);
     		ofl << subl.subword << " " << lemmavec << std::endl;
 		}
-    	/*else{
-		std::cout << "Hash already used by lemma: " << std::endl;
-		}*/
 	}
     for(int32_t m=0;m<subm.size();m++){
     subentry e= subm[m];
@@ -139,10 +81,7 @@ void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vect
   	morphvec.addRow(*input_,h);
     	ofm << e.subword << " " << morphvec << std::endl;
  	}
-    /*else {
-	 std::cout << "Hash already used by morph: " << std::endl; 
-	}*/
-      }
+  }
 
 }
 
