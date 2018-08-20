@@ -1,5 +1,5 @@
 # subword2vec
-subword2vec is the code repository for training word embeddings enriched with sub-word knowledge like character ngrams, lemma, morphological tags and phonemes. This library was used in the paper `Adapting Word Embeddings to New Languages with Morphological and Phonological Subword Representations` (to appear in EMNLP-2018). subword2vec is based on the [fastText](https://github.com/facebookresearch/fastText) library and [prop2vec](https://github.com/oavraham1/prop2vec) library. 
+subword2vec is the code repository for training word embeddings enriched with sub-word knowledge like character ngrams, lemma, morphological tags and phonemes. This library was used in our upcoming paper `Adapting Word Embeddings to New Languages with Morphological and Phonological Subword Representations` (to appear in EMNLP-2018). subword2vec is based on the [fastText](https://github.com/facebookresearch/fastText) library and [prop2vec](https://github.com/oavraham1/prop2vec) library. 
 
 ### Requirements
 - gcc-4.6.3 or newer (for compiling)
@@ -26,4 +26,5 @@ where `102345` denotes the number of unique sub-words `100` denotes the embeddin
 ```
 ./fasttext skipgram -input example/sample_input.txt -output  example/sample_output_pretrained_with_morph -ws 3 -t 1e-3 -minCount 2 -lr 0.025 -bucket 2000000 -props w+l+m -pretrainedVectors example/morph_output.vec
 ```
-
+### Best embeddings (in reference to the paper)
+The embeddings which gave best performance in the NER task used for our work here `Adapting Word Embeddings to New Languages with Morphological and Phonological Subword Representations` (to appear in EMNLP-2018), are made available in this folder: `\embeddings_released`. 
