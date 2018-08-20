@@ -8,7 +8,22 @@ subword2vec is the code repository for training word embeddings enriched with su
 Each word is represented with its sub-word information. For instance, a Hindi word `नदी `(river) is represented as `w:नदी~l:नद~m:N+Fem+Dir+Sg~ipa:nədiː`. An example input file is shown in the `\example` directory.
 
 ### Command
-cd 
+```
+cd Embeddings
+make
+./fasttext skipgram -input example/sample_input.txt -output example/sample_output -lr 0.025 -dim 100 -t 1e-3 -props w+l+m -minCount 2 -ws 3 -bucket 2000000 -lemmaoutput example/sample_lemma_output -morphoutput example/sample_morph_output
+```
 
-The word embedding is then represented as the average of the requested sub-word embeddings. 
- The input file should have word representat
+This command will train embeddings by averaging the sub_word units: charngrams (w:), lemma (l:), morph(m:). One can provide different combinations in the `-props` field depending on one's requirements. If one needs a combination of `charngrams + morph`, one should provide `-props w+m`. The arguments `-lemmaoutput` and `-morphoutput` would output the embeddings of the each sub-word unit. 
+
+##### Using pretrained sub-word embeddings
+To use pretrained embeddings for initializing vectors for the sub-words, the pretrained embeddings should have the following format:
+```
+102345 100
+Punc 1.4163 1.697 -0.95646 0.4587 1.2924 0 ...
+```
+where `102345` denotes the number of unique sub-words `100` denotes the embedding size. Then run the following:
+```
+./fasttext skipgram -input example/sample_input.txt -output  example/sample_output_pretrained_with_morph -ws 3 -t 1e-3 -minCount 2 -lr 0.025 -bucket 2000000 -props w+l+m -pretrainedVectors example/morph_output.vec
+```
+
