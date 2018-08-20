@@ -61,6 +61,8 @@ void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vect
  	}
 }
     const subentry subl = dict_->getLemma(word);
+    std::vector<std::string> lemmaValues = utils::split(subl.subword, ':');
+	
     const std::vector<subentry> subm = dict_->getMorph(word); 
     int32_t h = dict_->getHash(subl.subword);
    if(subl.subword != "") {
@@ -68,7 +70,7 @@ void FastText::getSubVector(Vector& vec, Vector& lemmavec, Vector& morphvec,Vect
 		lemmavec.zero();
 		mapOfSubWords.insert(std::make_pair(h,subl.subword));
   		lemmavec.addRow(*input_,h);
-    		ofl << subl.subword << " " << lemmavec << std::endl;
+    		ofl << lemmaValues[1] << " " << lemmavec << std::endl;
 		}
 	}
     for(int32_t m=0;m<subm.size();m++){
