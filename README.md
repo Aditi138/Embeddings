@@ -28,3 +28,16 @@ where `102345` denotes the number of unique sub-words `100` denotes the embeddin
 ```
 ### Best embeddings (in reference to the paper)
 The embeddings which gave best performance in the NER task used for our work here `Adapting Word Embeddings to New Languages with Morphological and Phonological Subword Representations` (to appear in EMNLP-2018), are made available in this folder: `\embeddings_released`. 
+
+### References
+If you make use of this software for research purposes, we will appreciate citing the following:
+```
+@inproceedings{chaudhary18emnlp,
+    title = {Adapting Word Embeddings to New Languages with Morphological and Phonological Subword Representations},
+    author = {Aditi Chaudhary and Chunting Zhou and Lori Levin and Graham Neubig, David R. Mortensen and Jaime Carbonell},
+    booktitle = {Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+    address = {Brussels, Belgium.},
+    month = {November},
+    year = {2018}
+}
+```
