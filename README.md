@@ -41,3 +41,5 @@ If you make use of this software for research purposes, we will appreciate citin
     year = {2018}
 }
 ```
+### Contact
+For any issues, please feel free to reach out to `aschaudh@andrew.cmu.edu`.
