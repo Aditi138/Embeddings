@@ -170,7 +170,9 @@ void Args::printHelp() {
     << "  -t                  sampling threshold [" << t << "]\n"
     << "  -label              labels prefix [" << label << "]\n"
     << "  -verbose            verbosity level [" << verbose << "]\n"
-    << "  -pretrainedVectors  pretrained word vectors for supervised learning []"
+    << "  -pretrainedVectors  pretrained word vectors for supervised learning []\n"
+    << "  -lemmaoutput  output path for lemma subword embeddings\n"
+    << "  -morphoutput  output path for morph subword embeddings"
     << std::endl;
 }
 
