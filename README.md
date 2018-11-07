@@ -32,14 +32,22 @@ The embeddings which gave best performance in the NER task used for our work her
 ### References
 If you make use of this software for research purposes, we will appreciate citing the following:
 ```
-@inproceedings{chaudhary18emnlp,
-    title = {Adapting Word Embeddings to New Languages with Morphological and Phonological Subword Representations},
-    author = {Aditi Chaudhary and Chunting Zhou and Lori Levin and Graham Neubig, David R. Mortensen and Jaime Carbonell},
-    booktitle = {Conference on Empirical Methods in Natural Language Processing (EMNLP)},
-    address = {Brussels, Belgium.},
-    month = {November},
-    year = {2018}
+@InProceedings{D18-1366,
+  author = 	"Chaudhary, Aditi
+		and Zhou, Chunting
+		and Levin, Lori
+		and Neubig, Graham
+		and Mortensen, David R.
+		and Carbonell, Jaime",
+  title = 	"Adapting Word Embeddings to New Languages with Morphological and Phonological Subword Representations",
+  booktitle = 	"Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing",
+  year = 	"2018",
+  publisher = 	"Association for Computational Linguistics",
+  pages = 	"3285--3295",
+  location = 	"Brussels, Belgium",
+  url = 	"http://aclweb.org/anthology/D18-1366"
 }
+
 ```
 ### Contact
 For any issues, please feel free to reach out to `aschaudh@andrew.cmu.edu`.
